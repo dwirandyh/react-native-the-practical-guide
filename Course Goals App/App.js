@@ -31,14 +31,24 @@ const App = () => {
     console.log(courseGoals);
   };
 
+  const removeGoalHandler = goalId => {
+    setCourseGoal(currentGoals => {
+      return currentGoals.filter(goal => goal.id !== goalId);
+    });
+  };
+
   return (
     <View style={styles.screen}>
       <GoalInput onAddGoal={addGoalHandler} />
       <FlatList
-        keyExtractor={(item, index) => item.id}
+        keyExtractor={(item, _) => item.id}
         data={courseGoals}
         renderItem={itemData => (
-          <GoalItem title={itemData.item.value} />
+          <GoalItem
+            id={itemData.item.id}
+            onDelete={removeGoalHandler}
+            title={itemData.item.value}
+          />
         )}></FlatList>
     </View>
   );
